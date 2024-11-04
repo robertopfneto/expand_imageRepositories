@@ -4,11 +4,9 @@ from PIL import Image
 import imgaug.augmenters as iaa
 
 def process_and_save_images(input_folder, output_folder, num_augmented_images=5):
-    # Verifica se a pasta de saída existe, senão cria
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)
 
-    # Pergunta ao usuário quais tipos de processamento ele deseja aplicar
     apply_fliplr = input("Deseja incluir o espelhamento horizontal no processamento? (s/n): ").lower() == 's'
     apply_flipud = input("Deseja incluir o espelhamento vertical no processamento? (s/n): ").lower() == 's'
     apply_crop = input("Deseja incluir corte aleatório no processamento? (s/n): ").lower() == 's'
@@ -22,7 +20,6 @@ def process_and_save_images(input_folder, output_folder, num_augmented_images=5)
     apply_invert = input("Deseja incluir inversão de cores no processamento? (s/n): ").lower() == 's'
     apply_resize = input("Deseja incluir redimensionamento aleatório no processamento? (s/n): ").lower() == 's'
 
-    # Define um pipeline de aumentação com base nas escolhas do usuário
     augmenters = []
     if apply_fliplr:
         augmenters.append(iaa.Fliplr(0.5))
@@ -51,17 +48,14 @@ def process_and_save_images(input_folder, output_folder, num_augmented_images=5)
 
     augmenter = iaa.Sequential(augmenters)
 
-    # Itera sobre todas as imagens na pasta de entrada
     for image_filename in os.listdir(input_folder):
         image_path = os.path.join(input_folder, image_filename)
         
-        # Verifica se é realmente um arquivo de imagem
         if not os.path.isfile(image_path) or not image_filename.lower().endswith(('.png', '.jpg', '.jpeg')):
             continue
 
         image = np.array(Image.open(image_path))
 
-        # Gera e salva as imagens aumentadas
         for i in range(num_augmented_images):
             augmented_image = augmenter(image=image)
             output_path = os.path.join(output_folder, f"{os.path.splitext(image_filename)[0]}_augmented_{i + 1}.jpg")
