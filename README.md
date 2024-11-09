@@ -1,6 +1,4 @@
 //PT-BR
-# Gerador de Imagens Aumentadas com Pergunta de Processamento
-
 Este script permite aplicar uma série de transformações de aumento de dados em uma imagem. Para cada tipo de transformação, o usuário é questionado se deseja aplicá-la ou não. O script salva as imagens processadas em uma pasta de saída específica.
 
 ## Funcionalidades
